@@ -1,4 +1,0 @@
-selam,ss@gmail.com,1234
-none,nonenone@gmail.com,0987
-neba,nn@gmail.com,1a2b3c4d
-semira,semihus@gmail.com,67890
