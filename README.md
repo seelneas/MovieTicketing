@@ -1,4 +1,4 @@
-Movie Ticketing System
+Movie Ticketing System-------Object Oriented Programming
 
 This project aims to create a movie booking system that can be accessed by both customers and managers. The system will have two main functionalities: one for customers and one for managers.
 
