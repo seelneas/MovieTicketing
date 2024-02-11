@@ -96,20 +96,69 @@ public class SignUpScreen extends GridPane {
             emailField.clear();
             passwordField.clear();
             confirmPasswordField.clear();
-        
+            
+            });}
+       private void saveUser() {
+    String username = usernameField.getText();
+    String email = emailField.getText();
+    String password = passwordField.getText();
+    boolean error = false;
+
+    try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] userInfo = line.split(",");
+            String existingUsername = userInfo[0];
+            String existingEmail = userInfo[1];
+
+            if (existingUsername.equals(username)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Username Already Exists");
+                alert.setContentText("The username is already taken. Please choose a different username.");
+                alert.showAndWait();
+                error = true;
+                break;
+            }
+
+            if (existingEmail.equals(email)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Email Already Exists");
+                alert.setContentText("The email is already registered. Please use a different email.");
+                alert.showAndWait();
+                error = true;
+                break;
+            }
+        }
+
+        if (!error) {
+            // If no existing username or email is found, save the user's information to the users file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("users.txt", true))) {
+                writer.write(username + "," + email + "," + password + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Clear the input fields
+            usernameField.clear();
+            emailField.clear();
+            passwordField.clear();
+            confirmPasswordField.clear();
+
             // Show a success message
             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
             successAlert.setTitle("Success");
             successAlert.setHeaderText("Account Created");
             successAlert.setContentText("Your account has been successfully created. Please sign in.");
             successAlert.showAndWait();
-        });}
-        private void saveUser() {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("users.txt", true))) {
-                writer.write(usernameField.getText() + "," + emailField.getText() + "," + passwordField.getText() + "\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            // Exit the program
+            System.exit(0);
         }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
     }
         
